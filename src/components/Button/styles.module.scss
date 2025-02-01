@@ -1,13 +1,17 @@
 @import '@styles/mixins.module.scss';
+@import '@styles/variable.module.scss';
 
-.btnSize {
-    @include btn(30px, 30px, 0px);
-}
+.btn {
+    @include btn(176px, 42px, 3px, $white_color, $primary_color);
+    font-size: 14px;
+    font-weight: 300;
 
-.btnAddWishlist {
-    @include btn(44px, 44px, 50%);
-}
+    cursor: pointer;
 
-.btnAddToCart {
-    @include btn(35%, 40px, 1px, #ffffff, #333333);
+    &:hover {
+        background-color: transparent;
+        color: $primary_color;
+        border: 1px solid $primary_color;
+        transition: background-color 300ms;
+    }
 }

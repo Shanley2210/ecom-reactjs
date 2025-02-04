@@ -6,17 +6,15 @@ import AdvanceHeadling from '@components/AdvanceHeadling/AdvanceHeadling';
 import HeadingListProducts from '@components/HeadingListProducts/HeadingListProducts';
 
 function HomePage() {
-    const { container } = styles;
     return (
-        <div>
-            <div className={container}>
-                <MyHeader />
-                <Banner />
-                <Info />
-                <AdvanceHeadling />
-                <HeadingListProducts />
-            </div>
-        </div>
+        <>
+            <MyHeader />
+            <Banner />
+            <Info />
+            <AdvanceHeadling />
+            <HeadingListProducts />
+            <div style={{ height: '200px' }}></div>
+        </>
     );
 }
 

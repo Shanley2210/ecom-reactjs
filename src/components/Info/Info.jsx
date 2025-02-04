@@ -9,9 +9,10 @@ function Info() {
         <div>
             <MainLayout>
                 <div className={container}>
-                    {dataInfo.map((item) => {
+                    {dataInfo.map((item, index) => {
                         return (
                             <InfoCard
+                                key={index}
                                 content={item.title}
                                 description={item.descriptio}
                                 src={item.src}

@@ -2,6 +2,7 @@ import styles from './styles.module.scss';
 import reloadIcon from '@icons/svgs/reloadIcon.svg';
 import heartIcon from '@icons/svgs/heartIcon.svg';
 import cartIcon from '@icons/svgs/cartIcon.svg';
+import eyeIcon from '@icons/svgs/eyeIcon.svg';
 
 function ProductItem({ src, prevSrc, name, price }) {
     const {
@@ -28,7 +29,7 @@ function ProductItem({ src, prevSrc, name, price }) {
                         <img src={reloadIcon} alt='' />
                     </div>
                     <div className={boxIcon}>
-                        <img src={cartIcon} alt='' />
+                        <img src={eyeIcon} alt='' />
                     </div>
                 </div>
             </div>

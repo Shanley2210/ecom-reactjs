@@ -1,9 +1,12 @@
+import useScrollHanding from '@/hooks/useScrollHanding';
 import BoxIconLeft from './BoxIcon/BoxIconLeft';
 import BoxIconRight from './BoxIcon/BoxIconRight';
 import { dataBoxIconLeft, dataBoxIconRight, dataMenu } from './contants';
 import Menu from './Menu/Menu';
 import styles from './styles.module.scss';
 import logo from '@icons/images/Logo-retina.png';
+import { useEffect, useState } from 'react';
+import classNames from 'classnames';
 
 function MyHeader() {
     const {
@@ -11,10 +14,34 @@ function MyHeader() {
         containerBoxIcon,
         containerMenu,
         containerHeader,
-        containerBox
+        containerBox,
+        fixedHeader,
+        topHeader
     } = styles;
+
+    const { scrollPosition } = useScrollHanding();
+    const [fixedPositition, setFixedPositition] = useState(false);
+
+    useEffect(() => {
+        // if (scrollPosition > 80) {
+        //     setFixedPositition(true);
+        // } else {
+        //     setFixedPositition(false);
+        // }
+
+        // setFixedPositition(scrollPosition > 80 ? true : false);
+
+        setFixedPositition(scrollPosition > 80);
+    }, [scrollPosition]);
+
+    // console.log(scrollPosition);
+
     return (
-        <div className={container}>
+        <div
+            className={classNames(container, topHeader, {
+                [fixedHeader]: fixedPositition
+            })}
+        >
             <div className={containerHeader}>
                 <div className={containerBox}>
                     <div className={containerBoxIcon}>

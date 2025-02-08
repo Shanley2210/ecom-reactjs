@@ -5,8 +5,9 @@ import { dataBoxIconLeft, dataBoxIconRight, dataMenu } from './contants';
 import Menu from './Menu/Menu';
 import styles from './styles.module.scss';
 import logo from '@icons/images/Logo-retina.png';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 
 function MyHeader() {
     const {
@@ -21,6 +22,9 @@ function MyHeader() {
 
     const { scrollPosition } = useScrollHanding();
     const [fixedPositition, setFixedPositition] = useState(false);
+    const { isOpen, setIsOpen } = useContext(SideBarContext);
+
+    console.log(isOpen);
 
     useEffect(() => {
         // if (scrollPosition > 80) {
@@ -77,7 +81,11 @@ function MyHeader() {
                     <div className={containerMenu}>
                         {dataMenu.slice(3, dataMenu.lengh).map((item) => {
                             return (
-                                <Menu content={item.content} href={item.href} />
+                                <Menu
+                                    content={item.content}
+                                    href={item.href}
+                                    setIsOpen={setIsOpen}
+                                />
                             );
                         })}
                     </div>

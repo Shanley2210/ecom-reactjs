@@ -1,0 +1,21 @@
+@import '@styles/variable.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    margin-bottom: 20px;
+    .lableInput {
+        font-size: 14px;
+        color: $four_color;
+        margin-bottom: 5px;
+    }
+
+    .boxInput {
+        width: 100%;
+        input {
+            width: 100%;
+            border: 1px solid #e1e1e1;
+            outline: none;
+            padding: 10px 0 10px 10px;
+        }
+    }
+}

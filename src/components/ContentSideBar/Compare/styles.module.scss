@@ -2,5 +2,12 @@
 @import '@styles/mixins.module.scss';
 
 .container {
-    padding: 30px 20px 0 20px;
+    @include flex_box_custom(space-between, space-between, 0px);
+
+    flex-direction: column;
+    padding: 30px 20px;
+    height: 95%;
+
+    .boxContent {
+    }
 }

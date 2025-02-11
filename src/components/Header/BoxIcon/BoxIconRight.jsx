@@ -1,27 +1,47 @@
 import styles from '../styles.module.scss';
-import reloadIcon from '@icons/svgs/reloadIcon.svg';
-import heartIcon from '@icons/svgs/heartIcon.svg';
-import cartIcon from '@icons/svgs/cartIcon.svg';
+import { TfiReload } from 'react-icons/tfi';
+import { IoMdHeartEmpty } from 'react-icons/io';
+import { BsCart3 } from 'react-icons/bs';
+import { useContext } from 'react';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 
 function BoxIconRight({ type, href }) {
     const { boxIconRight } = styles;
 
+    const { setIsOpen, setType } = useContext(SideBarContext);
+
+    const handleOpenSideBar = (type) => {
+        setIsOpen(true);
+        setType(type);
+    };
+
     const handleRenderIcon = (type) => {
         switch (type) {
-            case 'reload':
-                return reloadIcon;
-            case 'heart':
-                return heartIcon;
+            case 'compare':
+                return (
+                    <TfiReload
+                        style={{ fontSize: '20px' }}
+                        onClick={() => handleOpenSideBar(type)}
+                    />
+                );
+            case 'wishlist':
+                return (
+                    <IoMdHeartEmpty
+                        style={{ fontSize: '25px' }}
+                        onClick={() => handleOpenSideBar(type)}
+                    />
+                );
             case 'cart':
-                return cartIcon;
+                return (
+                    <BsCart3
+                        style={{ fontSize: '20px' }}
+                        onClick={() => handleOpenSideBar(type)}
+                    />
+                );
         }
     };
 
-    return (
-        <div className={boxIconRight}>
-            <img src={handleRenderIcon(type)} alt={type} />
-        </div>
-    );
+    return <div className={boxIconRight}>{handleRenderIcon(type)}</div>;
 }
 
 export default BoxIconRight;

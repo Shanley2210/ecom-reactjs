@@ -5,8 +5,8 @@ const dataBoxIconLeft = [
 ];
 
 const dataBoxIconRight = [
-    { type: 'reload', href: '#' },
-    { type: 'heart', href: '#' },
+    { type: 'compare', href: '#' },
+    { type: 'wishlist', href: '#' },
     { type: 'cart', href: '#' }
 ];
 

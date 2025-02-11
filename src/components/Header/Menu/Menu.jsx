@@ -1,9 +1,15 @@
 import styles from '../styles.module.scss';
 
-function Menu({ content, href, setIsOpen }) {
+function Menu({ content, href, setIsOpen, setType }) {
     const { menu } = styles;
     return (
-        <div className={menu} onClick={() => setIsOpen(true)}>
+        <div
+            className={menu}
+            onClick={() => {
+                setIsOpen(true);
+                setType('login');
+            }}
+        >
             {content}
         </div>
     );

@@ -4,13 +4,30 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 import classNames from 'classnames';
 import { IoMdClose } from 'react-icons/io';
 import Login from '@components/ContentSideBar/Login/Login';
+import Compare from '@components/ContentSideBar/Compare/Compare';
 
 function SideBar() {
     const { container, overlay, sideBar, slideSideBar, boxIcon } = styles;
 
-    const { isOpen, setIsOpen } = useContext(SideBarContext);
+    const { isOpen, setIsOpen, type } = useContext(SideBarContext);
     const handleToggle = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleRenderContent = () => {
+        switch (type) {
+            case 'login':
+                return <Login />;
+            case 'compare':
+                return <Compare />;
+            case 'wishlist':
+                return 'wishlist';
+            case 'cart':
+                return 'cart';
+
+            default:
+                return <Login />;
+        }
     };
 
     return (
@@ -31,7 +48,7 @@ function SideBar() {
                         <IoMdClose />
                     </div>
                 )}
-                <Login />
+                {handleRenderContent()}
             </div>
         </div>
     );

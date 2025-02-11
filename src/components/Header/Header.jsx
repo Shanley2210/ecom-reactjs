@@ -22,9 +22,13 @@ function MyHeader() {
 
     const { scrollPosition } = useScrollHanding();
     const [fixedPositition, setFixedPositition] = useState(false);
-    const { isOpen, setIsOpen } = useContext(SideBarContext);
+    const { setIsOpen, setType } = useContext(SideBarContext);
 
-    console.log(isOpen);
+    const handleOpenSideBar = (type) => {
+        setIsOpen(true);
+        setType(type);
+    };
+    // console.log(isOpen);
 
     useEffect(() => {
         // if (scrollPosition > 80) {
@@ -85,6 +89,7 @@ function MyHeader() {
                                     content={item.content}
                                     href={item.href}
                                     setIsOpen={setIsOpen}
+                                    setType={setType}
                                 />
                             );
                         })}

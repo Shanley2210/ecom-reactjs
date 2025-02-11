@@ -7,20 +7,24 @@
     width: calc(100% / 2);
     background-repeat: no-repeat;
     background-size: cover;
+    position: relative;
 
-}
+    .containerTimer {
+        @include flex_box_custom(center, center, 10px);
+    }
 
-.containerTimer {
-    @include flex_box_custom(center, center, 10px);
-}
+    .title {
+        font-size: 28px;
+        color: $four_color;
+        text-align: center;
+    }
 
-.title {
-    font-size: 28px;
-    color: $four_color;
-    text-align: center;
-}
-
-.boxBtn {
-    margin-top: 20px;
-    text-align: center;
+    .boxBtn {
+        margin-top: 20px;
+        text-align: center;
+        width: 160px;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 }

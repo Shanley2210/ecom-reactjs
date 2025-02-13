@@ -1,16 +1,22 @@
 import { useContext, useState } from 'react';
 import styles from '../styles.module.scss';
 import { StoreContext } from '@/contexts/storeProvider';
+import { useNavigate } from 'react-router-dom';
 
 function Menu({ content, href, setIsOpen, setType }) {
     const { menu, subMenu } = styles;
     const { userInfo, handleLogOut } = useContext(StoreContext);
     const [isShowSubMenu, setisShowSubMenu] = useState(false);
+    const navigate = useNavigate();
 
     const hanleClickShowLogin = () => {
         if (content === 'Sign in' && !userInfo) {
             setIsOpen(true);
             setType('login');
+        }
+
+        if (content === 'Our shop') {
+            navigate('/shop');
         }
     };
 

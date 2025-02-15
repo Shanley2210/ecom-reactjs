@@ -5,7 +5,7 @@ import cartIcon from '@icons/svgs/cartIcon.svg';
 import eyeIcon from '@icons/svgs/eyeIcon.svg';
 import classNames from 'classnames';
 import Button from '@components/Button/Button';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { OurShopContext } from '@contexts/OurShopProvider';
 
 function ProductItem({
@@ -16,8 +16,10 @@ function ProductItem({
     details,
     isHomepage = true
 }) {
-    const { isShowGrid } = useContext(OurShopContext);
+    //const { isShowGrid } = useContext(OurShopContext);
     const [sizeChoose, setSizeChoose] = useState('');
+    const ourShopStore = useContext(OurShopContext);
+    const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
 
     const {
         boxImg,
@@ -46,6 +48,14 @@ function ProductItem({
     const hanldClearSize = (size) => {
         setSizeChoose('');
     };
+
+    useEffect(() => {
+        if (isHomepage) {
+            setIsShowGrid(true);
+        } else {
+            setIsShowGrid(ourShopStore?.isShowGrid);
+        }
+    }, [isHomepage, ourShopStore?.isShowGrid]);
 
     //console.log(sizeChoose);
 

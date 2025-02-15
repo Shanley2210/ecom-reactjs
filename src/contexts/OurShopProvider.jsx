@@ -41,6 +41,7 @@ export const OurShopProvider = ({ children }) => {
     const [showId, setShowId] = useState('8');
     const [isShowGrid, setIsShowGrid] = useState(true);
     const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const values = {
         sortOption,
@@ -51,7 +52,8 @@ export const OurShopProvider = ({ children }) => {
         setShowId,
         isShowGrid,
         setIsShowGrid,
-        products
+        products,
+        isLoading
     };
 
     // console.log(sortId, 'sortId');
@@ -65,13 +67,17 @@ export const OurShopProvider = ({ children }) => {
             limit: showId
         };
 
+        setIsLoading(true);
+
         getProducts(query)
             .then((res) => {
                 // console.log(res);
                 setProducts(res.contents);
+                setIsLoading(false);
             })
             .catch((err) => {
-                //console.log(err);
+                console.log(err);
+                setIsLoading(false);
             });
     }, [sortId, showId]);
 

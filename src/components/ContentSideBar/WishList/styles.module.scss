@@ -10,5 +10,11 @@
     .boxBtn {
         @include flex_box_custom(space-between, space-between, 10px);
         flex-direction: column;
+
+        .Btn {
+            display: grid;
+            height: 43px;
+            width: 310px;
+        }
     }
 }

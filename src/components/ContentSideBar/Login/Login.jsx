@@ -120,7 +120,13 @@ function Login() {
                         <span>Remember me</span>
                     </div>
                 )}
-                <div style={{ textAlign: 'center' }}>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        display: 'grid',
+                        height: '40px'
+                    }}
+                >
                     <Button
                         content={
                             isLoading
@@ -133,17 +139,25 @@ function Login() {
                     />
                 </div>
             </form>
-            <Button
-                content={
-                    isRegister
-                        ? 'Already have an account?'
-                        : 'Dont have an account?'
-                }
-                type=''
-                isPrimary={false}
-                style={{ marginTop: '10px' }}
-                onClick={handleToggle}
-            />
+            <div
+                style={{
+                    textAlign: 'center',
+                    display: 'grid',
+                    height: '40px'
+                }}
+            >
+                <Button
+                    content={
+                        isRegister
+                            ? 'Already have an account?'
+                            : 'Dont have an account?'
+                    }
+                    type=''
+                    isPrimary={false}
+                    style={{ marginTop: '10px' }}
+                    onClick={handleToggle}
+                />
+            </div>
             {!isRegister && <div className={lostPW}>Lost your password?</div>}
         </div>
     );

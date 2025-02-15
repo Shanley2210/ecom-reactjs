@@ -5,7 +5,7 @@ import ItemProduct from '@components/ContentSideBar/components/ItemProduct/ItemP
 import Button from '@components/Button/Button';
 
 function WishList() {
-    const { container, boxBtn } = styles;
+    const { container, boxBtn, Btn } = styles;
     return (
         <div className={container}>
             <div>
@@ -16,8 +16,12 @@ function WishList() {
                 <ItemProduct />
             </div>
             <div className={boxBtn}>
-                <Button content={'VIEW WISHLIST'} />
-                <Button content={'ADD ALL TO CART'} isPrimary={false} />
+                <div className={Btn}>
+                    <Button content={'VIEW WISHLIST'} />
+                </div>
+                <div className={Btn}>
+                    <Button content={'ADD ALL TO CART'} isPrimary={false} />
+                </div>
             </div>
         </div>
     );

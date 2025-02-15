@@ -5,6 +5,7 @@
     width: 300px;
     height: 100%;
     position: relative;
+    margin-bottom: 10px;
 
     img {
         width: 100%;
@@ -89,13 +90,29 @@
     }
 }
 
+.isActiveSize {
+    border: 1px solid $primary_color !important;
+}
+
+.btnClear {
+    font-size: 12px;
+    text-align: center;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
 .textCenter {
     text-align: center;
 }
 
 .boxBtn {
+    display: grid;
+    height: 34px;
     width: 142px;
     margin: 10px auto;
+}
+.containerMargin {
+    margin-bottom: 50px;
 }
 
 .containerItem {

@@ -51,6 +51,8 @@
         }
 
         .boxBtn {
+            display: grid;
+            height: 37px;
             width: 160px;
         }
     }
@@ -85,7 +87,7 @@
 }
 
 .containerProduct {
-    @include flex_box_custom(space-between, center, 0px);
+    @include flex_box_custom(space-between, flex-start, 0px);
     flex-wrap: wrap;
     margin-top: 40px;
 }

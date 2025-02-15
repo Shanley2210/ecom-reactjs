@@ -5,7 +5,7 @@ import cartIcon from '@icons/svgs/cartIcon.svg';
 import eyeIcon from '@icons/svgs/eyeIcon.svg';
 import classNames from 'classnames';
 import Button from '@components/Button/Button';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { OurShopContext } from '@contexts/OurShopProvider';
 
 function ProductItem({
@@ -17,6 +17,7 @@ function ProductItem({
     isHomepage = true
 }) {
     const { isShowGrid } = useContext(OurShopContext);
+    const [sizeChoose, setSizeChoose] = useState('');
 
     const {
         boxImg,
@@ -32,13 +33,24 @@ function ProductItem({
         content,
         containerItem,
         leftBtn,
-        largImg
+        largImg,
+        containerMargin,
+        isActiveSize,
+        btnClear
     } = styles;
 
-    //console.log(isShowGrid);
+    const handleChooseSize = (size) => {
+        setSizeChoose(size);
+    };
+
+    const hanldClearSize = (size) => {
+        setSizeChoose('');
+    };
+
+    //console.log(sizeChoose);
 
     return (
-        <div className={isShowGrid ? '' : containerItem}>
+        <div className={isShowGrid ? containerMargin : containerItem}>
             <div className={classNames(boxImg, { [largImg]: !isShowGrid })}>
                 <img src={src} alt='' />
                 <img src={prevSrc} alt='' className={showImgWhenHover} />
@@ -63,11 +75,23 @@ function ProductItem({
                     <div className={boxSize}>
                         {details.size.map((item, index) => {
                             return (
-                                <div index={index} className={size}>
+                                <div
+                                    index={index}
+                                    className={classNames(size, {
+                                        [isActiveSize]: sizeChoose === item.name
+                                    })}
+                                    onClick={() => handleChooseSize(item.name)}
+                                >
                                     {item.name}
                                 </div>
                             );
                         })}
+                    </div>
+                )}
+
+                {sizeChoose && (
+                    <div onClick={() => hanldClearSize()} className={btnClear}>
+                        Clear
                     </div>
                 )}
 

@@ -5,7 +5,7 @@ import ItemProduct from '@components/ContentSideBar/components/ItemProduct/ItemP
 import Button from '@components/Button/Button';
 
 function Compare() {
-    const { container, boxContent } = styles;
+    const { container, boxContent, boxBtn } = styles;
     return (
         <div className={container}>
             <div className={boxContent}>
@@ -15,7 +15,7 @@ function Compare() {
                 />
                 <ItemProduct />
             </div>
-            <div>
+            <div className={boxBtn}>
                 <Button content={'VIEW COMPARE'} />
             </div>
         </div>

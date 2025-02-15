@@ -5,7 +5,7 @@ import ItemProduct from '@components/ContentSideBar/components/ItemProduct/ItemP
 import Button from '@components/Button/Button';
 
 function Cart() {
-    const { container, total, boxBtn } = styles;
+    const { container, total, boxBtn, Btn } = styles;
     return (
         <div className={container}>
             <div>
@@ -22,8 +22,12 @@ function Cart() {
                     <p>$99.99</p>
                 </div>
                 <div className={boxBtn}>
-                    <Button content={'VIEW CART'} />
-                    <Button content={'CHECKOUT'} isPrimary={false} />
+                    <div className={Btn}>
+                        <Button content={'VIEW CART'} />
+                    </div>
+                    <div className={Btn}>
+                        <Button content={'CHECKOUT'} isPrimary={false} />
+                    </div>
                 </div>
             </div>
         </div>

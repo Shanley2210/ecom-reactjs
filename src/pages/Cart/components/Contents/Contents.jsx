@@ -1,5 +1,6 @@
 import CartTable from '@pages/Cart/components/Contents/CartTable';
 import styles from '../../styles.module.scss';
+import CartSummary from '@pages/Cart/components/Contents/CartSummary';
 
 function Contents() {
     const { containerContent } = styles;
@@ -10,7 +11,9 @@ function Contents() {
                 <CartTable />
             </div>
 
-            <div>THANH TOAN</div>
+            <div>
+                <CartSummary />
+            </div>
         </div>
     );
 }

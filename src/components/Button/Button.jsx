@@ -1,7 +1,7 @@
 import styles from './styles.module.scss';
 import classNames from 'classnames';
 
-function Button({ content, isPrimary = true, ...props }) {
+function Button({ content, icon = '', isPrimary = true, ...props }) {
     const { btn, primaryBtn, seccondaryBtn } = styles;
     return (
         <div>

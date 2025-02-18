@@ -9,12 +9,8 @@ function CartTable() {
         cartTable,
         product,
         deleteItem,
-        cartActions,
-        coupon,
-        clearCart,
         price,
         sku,
-        boxButton,
         boxSelect
     } = styles;
 
@@ -82,20 +78,69 @@ function CartTable() {
                         </td>
                         <td className={price}>$3,759.98</td>
                     </tr>
+
+                    {/* Test */}
+                    <tr>
+                        <td className={product}>
+                            <img
+                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
+                                alt=''
+                            />
+                            <div>
+                                <p>Amet faucibus nunc</p>
+                                <span>
+                                    Size: <p>M</p>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div className={deleteItem}>
+                                <TfiTrash />
+                            </div>
+                        </td>
+                        <td className={price}>$1,879.99</td>
+                        <td className={sku}>87654</td>
+                        <td className={boxSelect}>
+                            <SelectBox
+                                options={showOption}
+                                getValue={getValueSelect}
+                                type={'show'}
+                            />
+                        </td>
+                        <td className={price}>$3,759.98</td>
+                    </tr>
+                    <tr>
+                        <td className={product}>
+                            <img
+                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
+                                alt=''
+                            />
+                            <div>
+                                <p>Amet faucibus nunc</p>
+                                <span>
+                                    Size: <p>M</p>
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div className={deleteItem}>
+                                <TfiTrash />
+                            </div>
+                        </td>
+                        <td className={price}>$1,879.99</td>
+                        <td className={sku}>87654</td>
+                        <td className={boxSelect}>
+                            <SelectBox
+                                options={showOption}
+                                getValue={getValueSelect}
+                                type={'show'}
+                            />
+                        </td>
+                        <td className={price}>$3,759.98</td>
+                    </tr>
+                    {/* Test */}
                 </tbody>
             </table>
-
-            <div className={cartActions}>
-                <div className={coupon}>
-                    <input type='text' placeholder='Coupon code' />
-                    <div className={boxButton}>
-                        <Button content={'OK'} isPrimary={false} />
-                    </div>
-                </div>
-                <div className={clearCart}>
-                    <Button content={'CLEAR SHOPPING CART'} isPrimary={false} />
-                </div>
-            </div>
         </div>
     );
 }

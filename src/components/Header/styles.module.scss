@@ -93,3 +93,20 @@
     transform: scale(1);
     opacity: 1;
 }
+
+.boxCart {
+    position: relative;
+    .quantity {
+        @include radius_common(50%);
+        @include flex_box_custom(center, center, 0px);
+
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        background-color: $primary_color;
+        color: $white_color;
+        width: 15px;
+        height: 15px;
+        font-size: 10px;
+    }
+}

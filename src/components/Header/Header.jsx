@@ -100,7 +100,7 @@ function MyHeader() {
                                 <BoxIconRight
                                     type={item.type}
                                     href={item.href}
-                                />
+                                />            
                             );
                         })}
                     </div>

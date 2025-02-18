@@ -6,9 +6,9 @@ import { useContext } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 
 function BoxIconRight({ type, href }) {
-    const { boxIconRight } = styles;
+    const { boxIconRight, boxCart, quantity } = styles;
 
-    const { setIsOpen, setType } = useContext(SideBarContext);
+    const { setIsOpen, setType, listProductsCart } = useContext(SideBarContext);
 
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
@@ -33,10 +33,15 @@ function BoxIconRight({ type, href }) {
                 );
             case 'cart':
                 return (
-                    <BsCart3
-                        style={{ fontSize: '20px' }}
-                        onClick={() => handleOpenSideBar(type)}
-                    />
+                    <div className={boxCart}>
+                        <BsCart3
+                            style={{ fontSize: '20px' }}
+                            onClick={() => handleOpenSideBar(type)}
+                        />
+                        <div className={quantity}>
+                            {listProductsCart.length}
+                        </div>
+                    </div>
                 );
         }
     };

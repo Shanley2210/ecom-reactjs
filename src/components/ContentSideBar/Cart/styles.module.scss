@@ -27,6 +27,7 @@
             width: 310px;
         }
     }
+
     .containerListProductCard {
         position: relative;
 
@@ -41,4 +42,29 @@
             background-color: rgba(255, 255, 255, 0.5);
         }
     }
+
+    .boxEmpty {
+        text-align: center;
+        font-size: 14px;
+        color: $four_color;
+        margin-top: 30px;
+
+        .boxBtnEmpty {
+            margin: 20px auto;
+            display: grid;
+            height: 34px;
+            width: 163px;
+        }
+    }
+
+    .containerListItem {
+        @include flex_box_custom(space-between, unset, 0px);
+
+        flex-direction: column;
+        flex-grow: 1;
+    }
+}
+
+.isEmpty {
+    justify-content: unset;
 }

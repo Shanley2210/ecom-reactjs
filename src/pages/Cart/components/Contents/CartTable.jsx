@@ -1,9 +1,14 @@
-import Button from '@components/Button/Button';
 import styles from '../../styles.module.scss';
 import SelectBox from '@pages/OurShop/components/SelectBox';
 import { TfiTrash } from 'react-icons/tfi';
+import LoadingCart from '@pages/Cart/components/Loading';
 
-function CartTable() {
+function CartTable({
+    listProductsCart,
+    getData,
+    isLoading,
+    handleDeleteItemCart
+}) {
     const {
         cartContainer,
         cartTable,
@@ -13,6 +18,8 @@ function CartTable() {
         sku,
         boxSelect
     } = styles;
+
+    //console.log('listProductsCart', listProductsCart);
 
     const showOption = [
         { label: '1', value: '1' },
@@ -24,15 +31,16 @@ function CartTable() {
         { label: '7', value: '7' }
     ];
 
-    const getValueSelect = (value, type) => {
-        console.log(value);
-        console.log(type);
+    const getValueSelect = (userId, productId, quantity, size) => {
+        const data = {
+            userId,
+            productId,
+            quantity,
+            size,
+            isMultiple: true
+        };
 
-        // if (type === 'sort') {
-        //     setSortId(value);
-        // } else {
-        //     setShowId(value);
-        // }
+        getData(data);
     };
 
     return (
@@ -49,98 +57,59 @@ function CartTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className={product}>
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
-                                alt=''
-                            />
-                            <div>
-                                <p>Amet faucibus nunc</p>
-                                <span>
-                                    Size: <p>M</p>
-                                </span>
-                            </div>
-                        </td>
-                        <td>
-                            <div className={deleteItem}>
-                                <TfiTrash />
-                            </div>
-                        </td>
-                        <td className={price}>$1,879.99</td>
-                        <td className={sku}>87654</td>
-                        <td className={boxSelect}>
-                            <SelectBox
-                                options={showOption}
-                                getValue={getValueSelect}
-                                type={'show'}
-                            />
-                        </td>
-                        <td className={price}>$3,759.98</td>
-                    </tr>
-
-                    {/* Test */}
-                    <tr>
-                        <td className={product}>
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
-                                alt=''
-                            />
-                            <div>
-                                <p>Amet faucibus nunc</p>
-                                <span>
-                                    Size: <p>M</p>
-                                </span>
-                            </div>
-                        </td>
-                        <td>
-                            <div className={deleteItem}>
-                                <TfiTrash />
-                            </div>
-                        </td>
-                        <td className={price}>$1,879.99</td>
-                        <td className={sku}>87654</td>
-                        <td className={boxSelect}>
-                            <SelectBox
-                                options={showOption}
-                                getValue={getValueSelect}
-                                type={'show'}
-                            />
-                        </td>
-                        <td className={price}>$3,759.98</td>
-                    </tr>
-                    <tr>
-                        <td className={product}>
-                            <img
-                                src='https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.1-min.jpg'
-                                alt=''
-                            />
-                            <div>
-                                <p>Amet faucibus nunc</p>
-                                <span>
-                                    Size: <p>M</p>
-                                </span>
-                            </div>
-                        </td>
-                        <td>
-                            <div className={deleteItem}>
-                                <TfiTrash />
-                            </div>
-                        </td>
-                        <td className={price}>$1,879.99</td>
-                        <td className={sku}>87654</td>
-                        <td className={boxSelect}>
-                            <SelectBox
-                                options={showOption}
-                                getValue={getValueSelect}
-                                type={'show'}
-                            />
-                        </td>
-                        <td className={price}>$3,759.98</td>
-                    </tr>
-                    {/* Test */}
+                    {listProductsCart.map((item) => {
+                        return (
+                            <tr key={item.id}>
+                                <td className={product}>
+                                    <img src={item.images[0]} alt={item.name} />
+                                    <div>
+                                        <p>{item.name}</p>
+                                        <span>
+                                            Size: <p>{item.size}</p>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div
+                                        className={deleteItem}
+                                        onClick={() =>
+                                            handleDeleteItemCart({
+                                                userId: item.userId,
+                                                productId: item.productId
+                                            })
+                                        }
+                                    >
+                                        <TfiTrash />
+                                    </div>
+                                </td>
+                                <td className={price}>
+                                    ${item.price.toFixed(2)}
+                                </td>
+                                <td className={sku}>{item.sku}</td>
+                                <td className={boxSelect}>
+                                    <SelectBox
+                                        options={showOption}
+                                        getValue={(e) =>
+                                            getValueSelect(
+                                                item.userId,
+                                                item.productId,
+                                                e,
+                                                item.size
+                                            )
+                                        }
+                                        type={'show'}
+                                        defaultValue={item.quantity}
+                                    />
+                                </td>
+                                <td className={price}>
+                                    ${(item.price * item.quantity).toFixed(2)}
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
             </table>
+            {isLoading && <LoadingCart />}
         </div>
     );
 }

@@ -38,6 +38,11 @@ function Cart() {
         return acc + item.total;
     }, 0);
 
+    const handleNavigateToCart = () => {
+        navigate('/cart');
+        setIsOpen(false);
+    };
+
     // console.log(subTotal);
 
     //console.log(listProductsCart);
@@ -84,7 +89,10 @@ function Cart() {
                         </div>
                         <div className={boxBtn}>
                             <div className={Btn}>
-                                <Button content={'VIEW CART'} />
+                                <Button
+                                    content={'VIEW CART'}
+                                    onClick={handleNavigateToCart}
+                                />
                             </div>
                             <div className={Btn}>
                                 <Button

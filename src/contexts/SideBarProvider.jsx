@@ -33,7 +33,9 @@ export const SideBarProvider = ({ children }) => {
         setType,
         handleGetListProductsCart,
         listProductsCart,
-        isLoading
+        isLoading,
+        setIsLoading,
+        userId
     };
 
     useEffect(() => {

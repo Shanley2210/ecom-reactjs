@@ -70,6 +70,7 @@
         padding: 1px;
         width: 700px;
         border-bottom: 1px solid #ddd;
+        position: relative;
 
         .cartTable {
             width: 100%;
@@ -177,6 +178,7 @@
         padding: 25px;
         border: 2px solid #333;
         width: 450px;
+        position: relative;
 
         .title {
             font-size: 16px;
@@ -296,4 +298,41 @@
             }
         }
     }
+}
+
+.boxEmptyCart {
+    @include flex_box_custom(center, center, 20px);
+
+    flex-direction: column;
+    width: 100%;
+
+    .titleEmty {
+        font-size: 24px;
+        color: $primary_color;
+    }
+
+    .descEmpty {
+        font-size: 14px;
+        color: $third_color;
+    }
+
+    .boxBtnEmpty {
+        button {
+            width: 163px;
+            height: 35px;
+            padding: 0px 20px;
+            font-size: 12px;
+        }
+    }
+}
+
+.loadingCart {
+    @include flex_box_custom(center, center, 0px);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
 }

@@ -1,8 +1,8 @@
 import styles from './styles.module.scss';
-import reloadIcon from '@icons/svgs/reloadIcon.svg';
-import heartIcon from '@icons/svgs/heartIcon.svg';
-import cartIcon from '@icons/svgs/cartIcon.svg';
-import eyeIcon from '@icons/svgs/eyeIcon.svg';
+import { TfiReload } from 'react-icons/tfi';
+import { CiHeart } from 'react-icons/ci';
+import { SlBag } from 'react-icons/sl';
+import { IoEyeOutline } from 'react-icons/io5';
 import classNames from 'classnames';
 import Button from '@components/Button/Button';
 import { useContext, useEffect, useState } from 'react';
@@ -26,8 +26,12 @@ function ProductItem({
     const ourShopStore = useContext(OurShopContext);
     const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
     const userId = Cookies.get('userId');
-    const { setIsOpen, setType, handleGetListProductsCart } =
-        useContext(SideBarContext);
+    const {
+        setIsOpen,
+        setType,
+        handleGetListProductsCart,
+        setDetailProduct
+    } = useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -106,6 +110,13 @@ function ProductItem({
             });
     };
 
+    const handleShowDetailProductSideBar = () => {
+        setIsOpen(true);
+        setType('detail');
+
+        setDetailProduct(details);
+    };
+
     //console.log(sizeChoose);
 
     return (
@@ -115,16 +126,19 @@ function ProductItem({
                 <img src={prevSrc} alt='' className={showImgWhenHover} />
                 <div className={showFnWhenHover}>
                     <div className={boxIcon}>
-                        <img src={cartIcon} alt='' />
+                        <SlBag style={{ fontSize: '17px' }} />
                     </div>
                     <div className={boxIcon}>
-                        <img src={heartIcon} alt='' />
+                        <CiHeart style={{ fontSize: '23px' }} />
                     </div>
                     <div className={boxIcon}>
-                        <img src={reloadIcon} alt='' />
+                        <TfiReload />
                     </div>
-                    <div className={boxIcon}>
-                        <img src={eyeIcon} alt='' />
+                    <div
+                        className={boxIcon}
+                        onClick={handleShowDetailProductSideBar}
+                    >
+                        <IoEyeOutline style={{ fontSize: '20px' }} />
                     </div>
                 </div>
             </div>

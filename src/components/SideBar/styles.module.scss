@@ -27,6 +27,10 @@
 
         transform: translateX(350px);
         transition: all 0.3s ease;
+
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #ccc transparent;
     }
 
     .slideSideBar {

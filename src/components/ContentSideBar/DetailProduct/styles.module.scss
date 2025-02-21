@@ -1,0 +1,106 @@
+@import '@styles/mixins.module.scss';
+@import '@styles/variable.module.scss';
+
+.container {
+    padding: 20px;
+
+    .title {
+        font-size: 24px;
+        color: $four_color;
+        margin-top: 20px;
+    }
+
+    .price {
+        font-size: 20px;
+        color: $secondary_color;
+        margin: 10px 0px;
+    }
+
+    .des {
+        color: $third_color;
+    }
+
+    .lableSize {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: $third_color;
+    }
+
+    .boxSize {
+        @include flex_box_custom(flex-start, center, 10px);
+
+        .size {
+            padding: 9px 12px;
+            border: 1px solid #e1e1e1;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .isActive {
+            border: 1px solid $primary_color;
+            color: white;
+        }
+    }
+
+    .boxAddToCart {
+        @include flex_box_custom(flex-start, center, 10px);
+        margin-top: 15px;
+
+        select {
+            width: 65px;
+            height: 36px;
+        }
+
+        button {
+            width: 190px;
+            height: 38px;
+        }
+    }
+
+    .boxOr {
+        @include flex_box_custom(center, center, 10px);
+        font-size: 12px;
+        color: $third_color;
+        margin-top: 15px;
+
+        .line {
+            width: 100%;
+            height: 1px;
+            background-color: #e1e1e1;
+            flex-grow: 1;
+        }
+    }
+
+    .boxButtonSelectOption {
+        margin-top: 15px;
+
+        button {
+            width: 100%;
+            height: 38px;
+        }
+    }
+
+    .boxAddOther {
+        @include flex_box_custom(flex-start, center, 10px);
+
+        margin-top: 12px;
+        color: $four_color;
+        cursor: pointer;
+    }
+
+    .boxFooter {
+        @include flex_box_custom(flex-start, center, 10px);
+
+        margin-top: 12px;
+
+        span {
+            color: $secondary_color;
+        }
+
+        div {
+            color: $secondary_color;
+            cursor: pointer;
+        }
+    }
+}

@@ -1,0 +1,144 @@
+import { useContext } from 'react';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import styles from './styles.module.scss';
+import SilderCommon from '@components/SliderCommon/SilderCommon';
+import SelectBox from '@pages/OurShop/components/SelectBox';
+import Button from '@components/Button/Button';
+import { BsCart3 } from 'react-icons/bs';
+import { TfiReload } from 'react-icons/tfi';
+import { IoMdHeartEmpty } from 'react-icons/io';
+import { FaXTwitter } from 'react-icons/fa6';
+import { BiLogoFacebook } from 'react-icons/bi';
+import { FaVk } from 'react-icons/fa';
+import { FaPinterestP } from 'react-icons/fa6';
+import { FaLinkedinIn } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
+import { FaSkype } from 'react-icons/fa';
+
+function DetailProduct() {
+    const {
+        container,
+        title,
+        price,
+        des,
+        lableSize,
+        boxSize,
+        size,
+        boxAddToCart,
+        boxOr,
+        line,
+        or,
+        boxButtonSelectOption,
+        boxAddOther,
+        boxFooter
+    } = styles;
+    const { detailProduct } = useContext(SideBarContext);
+
+    const showOption = [
+        { label: '1', value: '1' },
+        { label: '2', value: '2' },
+        { label: '3', value: '3' },
+        { label: '4', value: '4' },
+        { label: '5', value: '5' },
+        { label: '6', value: '6' },
+        { label: '7', value: '7' }
+    ];
+
+    //console.log(detailProduct);
+
+    return (
+        <div className={container}>
+            <SilderCommon data={detailProduct.images} />
+
+            <div className={title}>{detailProduct.name}</div>
+            <div className={price}>${detailProduct.price}</div>
+            <div className={des}>{detailProduct.description}</div>
+
+            <div className={lableSize}>Size</div>
+            <div className={boxSize}>
+                {detailProduct.size.map((item, index) => (
+                    <div key={index} className={size}>
+                        {item.name}
+                    </div>
+                ))}
+            </div>
+
+            <div className={boxAddToCart}>
+                <SelectBox options={showOption} />
+
+                <div>
+                    <Button
+                        content={
+                            <div>
+                                <BsCart3 /> ADD TO CART
+                            </div>
+                        }
+                    />
+                </div>
+            </div>
+
+            <div className={boxOr}>
+                <div className={line} />
+                <div className={or}>OR</div>
+                <div className={line} />
+            </div>
+
+            <div className={boxButtonSelectOption}>
+                <Button
+                    content={
+                        <div>
+                            <BsCart3 /> SELECT OPTION
+                        </div>
+                    }
+                />
+            </div>
+
+            <div className={boxAddOther}>
+                <TfiReload style={{ fontSize: '20px', marginLeft: '2px' }} />{' '}
+                Add to compare
+            </div>
+            <div className={boxAddOther}>
+                <IoMdHeartEmpty style={{ fontSize: '25px' }} /> Add to wishlist
+            </div>
+
+            <div className={boxFooter}>
+                SKU: <span>12349</span>
+            </div>
+
+            <div className={boxFooter}>
+                Category: <span>Pulloves</span>
+            </div>
+
+            <div className={boxFooter}>
+                Estimated delivery: <span>5 - 7 days</span>
+            </div>
+
+            <div className={boxFooter}>
+                Share:
+                <div>
+                    <FaXTwitter />
+                </div>
+                <div>
+                    <BiLogoFacebook />
+                </div>
+                <div>
+                    <FaVk />
+                </div>
+                <div>
+                    <FaPinterestP />
+                </div>
+                <div>
+                    <FaLinkedinIn />
+                </div>
+                <div>
+                    <FaWhatsapp />
+                </div>
+                <div>
+                    <FaSkype />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default DetailProduct;

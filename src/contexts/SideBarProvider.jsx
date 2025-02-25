@@ -42,7 +42,9 @@ export const SideBarProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        handleGetListProductsCart(userId, 'cart');
+        if (userId) {
+            handleGetListProductsCart(userId, 'cart');
+        }
     }, []);
 
     return (

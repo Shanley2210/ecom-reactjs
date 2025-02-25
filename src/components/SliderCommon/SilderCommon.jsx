@@ -4,27 +4,42 @@ import 'slick-carousel/slick/slick-theme.css';
 import './styles.css';
 import { IoIosArrowBack } from 'react-icons/io';
 import { IoIosArrowForward } from 'react-icons/io';
+import ProductItem from '@components/ProductItem/ProductItem';
 
-function SilderCommon({ data }) {
+function SilderCommon({ data, isProductItem = false, showItem = 1 }) {
     var settings = {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 1,
+        slidesToShow: showItem,
         slidesToScroll: 1,
         nextArrow: <IoIosArrowForward />,
         prevArrow: <IoIosArrowBack />
     };
 
-    console.log(data);
+    //console.log(data);
 
     return (
         <Slider {...settings}>
-            {data.map((src, index) => {
+            {data.map((item, index) => {
                 return (
-                    <div key={index}>
-                        <img src={src} alt='' />
-                    </div>
+                    <>
+                        {isProductItem ? (
+                            <ProductItem
+                                src={item.image}
+                                prevSrc={item.image}
+                                name={item.name}
+                                price={item.price}
+                                details={item}
+                                isHomepage={false}
+                                slideItem={true}
+                            />
+                        ) : (
+                            <div key={index}>
+                                <img src={item} alt='' />
+                            </div>
+                        )}
+                    </>
                 );
             })}
         </Slider>

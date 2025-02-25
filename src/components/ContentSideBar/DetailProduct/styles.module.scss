@@ -35,11 +35,17 @@
             border: 1px solid #e1e1e1;
             font-size: 12px;
             cursor: pointer;
+
+            &:hover {
+                border: 1px solid $primary_color;
+                color: $third_color;
+                transition: border 0.3s;
+            }
         }
 
         .isActive {
             border: 1px solid $primary_color;
-            color: white;
+            color: $third_color;
         }
     }
 

@@ -30,7 +30,7 @@ export const StoreProvider = ({ children }) => {
 
     return (
         <StoreContext.Provider
-            value={{ userInfo, setUserInfo, handleLogOut, setUserId }}
+            value={{ handleLogOut, userId, setUserId, userInfo, setUserInfo }}
         >
             {children}
         </StoreContext.Provider>

@@ -16,7 +16,7 @@ function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const { toast } = useContext(ToastContext);
     const { setIsOpen, handleGetListProductsCart } = useContext(SideBarContext);
-    const { setUserId } = useContext(StoreContext);
+    const { setUserId, userId } = useContext(StoreContext);
 
     const formik = useFormik({
         initialValues: {
@@ -69,6 +69,7 @@ function Login() {
                     })
                     .catch((err) => {
                         setIsLoading(false);
+                        toast.error('Sign in failed!');
                     });
             }
         }

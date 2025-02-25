@@ -1,0 +1,297 @@
+@import '@styles/variable.module.scss';
+@import '@styles/mixins.module.scss';
+
+.container {
+    padding-top: 83px;
+
+    .navigateSection {
+        @include flex_box_custom(space-between, center, 0px);
+
+        color: $secondary_color;
+        font-size: 14px;
+        font-weight: 300;
+        padding: 10px 0;
+    }
+
+    .contentSection {
+        @include flex_box_custom(unset, flex-start, 20px);
+
+        .boxImages {
+            max-width: 610px;
+            width: 100%;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            img {
+                width: calc(100% / 2 - 10px);
+                height: 350px;
+                object-fit: cover;
+                border-radius: 3px;
+
+                cursor: zoom-in;
+            }
+        }
+
+        .boxInfoProduct {
+            flex-grow: 1;
+
+            h1 {
+                font-size: 24px;
+                margin-top: 0px;
+                font-weight: 400;
+                color: $four_color;
+            }
+
+            .price {
+                font-size: 20px;
+                color: $secondary_color;
+            }
+
+            .des {
+                color: $third_color;
+                font-weight: 400;
+            }
+
+            .titleSize {
+                margin-bottom: 8px;
+                font-weight: 400;
+                color: $third_color;
+                font-size: 16px;
+            }
+
+            .boxSize {
+                @include flex_box_custom(flex-start, center, 10px);
+
+                .size {
+                    @include flex_box_custom(center, center, 0px);
+
+                    border: 1px solid #e1e1e1;
+                    padding: 6px 10px;
+                    font-size: 12px;
+                    color: $third_color;
+                    cursor: pointer;
+
+                    &:hover {
+                        border: 1px solid #555;
+                        transition: all 0.5s ease;
+                    }
+                }
+
+                .activeSive {
+                    border: 1px solid #555;
+                }
+            }
+
+            .clearSize {
+                text-decoration: underline;
+                padding-top: 20px;
+                cursor: pointer;
+                color: $four_color;
+                font-size: 14px;
+            }
+
+            .funcInfo {
+                @include flex_box_custom(space-between, center, 20px);
+
+                margin-top: 20px;
+
+                .incrQuantity {
+                    @include flex_box_custom(center, center, 0px);
+
+                    div {
+                        border: 1px solid #e1e1e1;
+                        padding: 9px 5px;
+                        color: $secondary_color;
+                        cursor: pointer;
+                    }
+
+                    .titleQuantity {
+                        padding: 9px 13px;
+                        color: $third_color;
+                        cursor: unset;
+                    }
+                }
+
+                .boxBtn {
+                    flex-grow: 1;
+
+                    button {
+                        height: 40px;
+                    }
+                }
+            }
+
+            .orSection {
+                @include flex_box_custom(unset, center, 0px);
+                margin: 20px 0;
+
+                div {
+                    width: 100%;
+                    height: 1px;
+                    background-color: #e1e1e1;
+                }
+
+                span {
+                    padding: 0 10px;
+                    font-size: 12px;
+                    color: $four_color;
+                }
+            }
+
+            .addFunction {
+                @include flex_box_custom(unset, center, 10px);
+
+                margin: 30px 0;
+
+                div {
+                    @include flex_box_custom(center, center, 0px);
+                    border: 1px solid #e1e1e1;
+                    border-radius: 50%;
+                    padding: 10px;
+                    cursor: pointer;
+                }
+            }
+
+            .infoProduct {
+                @include flex_box_custom(unset, flex-start, 10px);
+
+                margin: 20px 0px;
+                flex-direction: column;
+                color: $four_color;
+
+                span {
+                    color: $secondary_color;
+                }
+            }
+        }
+    }
+}
+
+.containerInfo {
+    font-weight: 300;
+
+    .itemInfo {
+        @include flex_box_custom(flex-start, center, 0px);
+        border-bottom: 1px solid #e1e1e1;
+        padding: 15px 0;
+
+        div {
+            width: 50%;
+        }
+
+        .title {
+            color: $secondary_color;
+        }
+
+        .content {
+            color: $third_color;
+        }
+    }
+
+    div:last-child {
+        border-bottom: unset;
+    }
+}
+
+.containerReview {
+    .review {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    .noReview {
+        font-size: 14px;
+        color: $third_color;
+        margin-bottom: 20px;
+    }
+
+    .replyForm {
+        padding-top: 30px;
+
+        .commentReplyTitle {
+            font-size: 14px;
+            color: $third_color;
+            margin-bottom: 14px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .commentNote {
+            font-size: 14px;
+            color: $third_color;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .saveName {
+                display: flex;
+                align-items: flex-start;
+                gap: 5px;
+
+                input {
+                    margin-top: 3px;
+                }
+
+                span {
+                    color: $third_color;
+                }
+            }
+
+            .boxBtnSubmit {
+                width: 100%;
+                max-width: 106px;
+
+                button {
+                    height: 35px;
+                }
+            }
+        }
+    }
+}
+
+.containerFromItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .boxItemStar {
+        display: flex;
+        gap: 25px;
+        cursor: pointer;
+    }
+
+    label {
+        font-size: 16px;
+        color: $third_color;
+
+        span {
+            color: #c62828;
+        }
+    }
+
+    textarea,
+    input {
+        border: 1px solid #e1e1e1;
+        padding: 10px 15px;
+        outline: none;
+
+        &:focus {
+            border: 1px solid $secondary_color;
+        }
+    }
+}
+
+.disableBtn {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.disableBtn:hover {
+    background-color: #333;
+    color: #fff;
+}

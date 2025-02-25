@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import styles from './styles.module.scss';
 import SilderCommon from '@components/SliderCommon/SilderCommon';
@@ -14,6 +14,9 @@ import { FaPinterestP } from 'react-icons/fa6';
 import { FaLinkedinIn } from 'react-icons/fa';
 import { FaWhatsapp } from 'react-icons/fa';
 import { FaSkype } from 'react-icons/fa';
+import ClassNames from 'classnames';
+import { addProductToCart } from '@/apis/cartService';
+import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
 
 function DetailProduct() {
     const {
@@ -30,9 +33,20 @@ function DetailProduct() {
         or,
         boxButtonSelectOption,
         boxAddOther,
-        boxFooter
+        boxFooter,
+        isActive
     } = styles;
-    const { detailProduct } = useContext(SideBarContext);
+    const {
+        detailProduct,
+        userId,
+        setType,
+        handleGetListProductsCart,
+        isLoading,
+        setIsLoading,
+        setIsOpen
+    } = useContext(SideBarContext);
+    const [chooseSize, setChooseSize] = useState('M');
+    const [quantity, setQuantity] = useState(1);
 
     const showOption = [
         { label: '1', value: '1' },
@@ -44,7 +58,50 @@ function DetailProduct() {
         { label: '7', value: '7' }
     ];
 
+    const handleGetSize = (value) => {
+        //console.log(value);
+        setChooseSize(value);
+    };
+
+    const handleClearSize = () => {
+        setChooseSize('');
+    };
+
+    const handleChooseQuantity = (value) => {
+        setQuantity(value);
+    };
+
+    const handleAddToCart = () => {
+        console.log(detailProduct);
+
+        const data = {
+            userId: userId,
+            productId: detailProduct._id,
+            quantity: quantity,
+            size: chooseSize,
+            isMultiple: true
+        };
+
+        //console.log(data);
+        setIsLoading(true);
+        {
+            isLoading ? setIsOpen(false) : setIsOpen(true);
+        }
+        addProductToCart(data)
+            .then((res) => {
+                setType('cart');
+                setIsOpen(true);
+                handleGetListProductsCart(userId, 'cart');
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+            });
+    };
+
     //console.log(detailProduct);
+    //console.log(chooseSize);
+    //console.log(quantity);
 
     return (
         <div className={container}>
@@ -54,27 +111,57 @@ function DetailProduct() {
             <div className={price}>${detailProduct.price}</div>
             <div className={des}>{detailProduct.description}</div>
 
-            <div className={lableSize}>Size</div>
+            <div className={lableSize}>Size:{chooseSize}</div>
             <div className={boxSize}>
                 {detailProduct.size.map((item, index) => (
-                    <div key={index} className={size}>
+                    <div
+                        key={index}
+                        className={ClassNames(size, {
+                            [isActive]: chooseSize === item.name
+                        })}
+                        onClick={() => handleGetSize(item.name)}
+                    >
                         {item.name}
                     </div>
                 ))}
             </div>
 
-            <div className={boxAddToCart}>
-                <SelectBox options={showOption} />
-
-                <div>
-                    <Button
-                        content={
-                            <div>
-                                <BsCart3 /> ADD TO CART
-                            </div>
-                        }
-                    />
+            {chooseSize && (
+                <div
+                    style={{
+                        fontSize: '12px',
+                        color: '#222',
+                        marginTop: '10px',
+                        cursor: 'pointer'
+                    }}
+                    onClick={handleClearSize}
+                >
+                    Clear
                 </div>
+            )}
+
+            <div className={boxAddToCart}>
+                <SelectBox
+                    options={showOption}
+                    defaultValue={quantity}
+                    getValue={handleChooseQuantity}
+                />
+
+                <Button
+                    content={
+                        <div>
+                            {isLoading ? (
+                                <LoadingTextCommon />
+                            ) : (
+                                <div>
+                                    {' '}
+                                    <BsCart3 /> ADD TO CART{' '}
+                                </div>
+                            )}
+                        </div>
+                    }
+                    onClick={handleAddToCart}
+                />
             </div>
 
             <div className={boxOr}>

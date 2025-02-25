@@ -12,6 +12,7 @@ import { SideBarContext } from '@contexts/SideBarProvider';
 import { ToastContext } from '@contexts/ToastProvider';
 import { addProductToCart } from '@/apis/cartService';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import { useNavigate } from 'react-router-dom';
 
 function ProductItem({
     src,
@@ -19,21 +20,19 @@ function ProductItem({
     name,
     price,
     details,
-    isHomepage = true
+    isHomepage = true,
+    slideItem = false
 }) {
     //const { isShowGrid } = useContext(OurShopContext);
     const [sizeChoose, setSizeChoose] = useState('');
     const ourShopStore = useContext(OurShopContext);
     const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
     const userId = Cookies.get('userId');
-    const {
-        setIsOpen,
-        setType,
-        handleGetListProductsCart,
-        setDetailProduct
-    } = useContext(SideBarContext);
+    const { setIsOpen, setType, handleGetListProductsCart, setDetailProduct } =
+        useContext(SideBarContext);
     const { toast } = useContext(ToastContext);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     const {
         boxImg,
@@ -117,11 +116,34 @@ function ProductItem({
         setDetailProduct(details);
     };
 
+    const handleNavigateToDetail = () => {
+        //console.log('navigate');
+        //console.log(details._id);
+
+        const path = `/product/${details._id}`;
+
+        //console.log(path);
+
+        navigate(path);
+    };
+
+    useEffect(() => {
+        if (slideItem) {
+            setIsShowGrid(true);
+        }
+    }, [slideItem]);
+
     //console.log(sizeChoose);
 
     return (
-        <div className={isShowGrid ? containerMargin : containerItem}>
-            <div className={classNames(boxImg, { [largImg]: !isShowGrid })}>
+        <div
+            className={isShowGrid ? containerMargin : containerItem}
+            style={{ cursor: 'pointer' }}
+        >
+            <div
+                className={classNames(boxImg, { [largImg]: !isShowGrid })}
+                onClick={handleNavigateToDetail}
+            >
                 <img src={src} alt='' />
                 <img src={prevSrc} alt='' className={showImgWhenHover} />
                 <div className={showFnWhenHover}>

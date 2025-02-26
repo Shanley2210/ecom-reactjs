@@ -16,11 +16,11 @@ import ClassNames from 'classnames';
 import { getDetailProduct, getRelatedProduct } from '@/apis/productsService';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
-import { toast } from 'react-toastify';
 import { handleaddProductToCartCommon } from '@/utils/helper';
 import { SideBarContext } from '@/contexts/SideBarProvider';
 import { ToastContext } from '@/contexts/ToastProvider';
 import Cookies from 'js-cookie';
+import { addProductToCart } from '@/apis/cartService';
 
 function DetailProduct() {
     const {
@@ -61,6 +61,7 @@ function DetailProduct() {
     const { toast } = useContext(ToastContext);
     const userId = Cookies.get('userId');
     const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+    const [isLoadingBtnBuyNow, setIsLoadingBtnBuyNow] = useState(false);
 
     const dataAccordion = [
         {
@@ -147,6 +148,42 @@ function DetailProduct() {
         }
     };
 
+    const handleAdd = () => {
+        handleaddProductToCartCommon(
+            userId,
+            setIsOpen,
+            setType,
+            toast,
+            sizeSelected,
+            param.id,
+            quantity,
+            setIsLoadingBtn,
+            handleGetListProductsCart
+        );
+    };
+
+    const handleBuyNow = () => {
+        const data = {
+            userId,
+            productId: param.id,
+            quantity,
+            size: sizeSelected
+        };
+
+        setIsLoadingBtnBuyNow(true);
+        addProductToCart(data)
+            .then((res) => {
+                navigate('/cart');
+
+                toast.success('Add Product to cart successfully');
+                setIsLoadingBtnBuyNow(false);
+            })
+            .catch((err) => {
+                toast.error('Add Product to cart failed');
+                setIsLoadingBtnBuyNow(false);
+            });
+    };
+
     const fetchDataDetail = async (id) => {
         setIsLoading(true);
         try {
@@ -176,20 +213,6 @@ function DetailProduct() {
             setDataRelated([]);
             setIsLoading(false);
         }
-    };
-
-    const handleAdd = () => {
-        handleaddProductToCartCommon(
-            userId,
-            setIsOpen,
-            setType,
-            toast,
-            sizeSelected,
-            param.id,
-            quantity,
-            setIsLoadingBtn,
-            handleGetListProductsCart
-        );
     };
 
     useEffect(() => {
@@ -343,10 +366,17 @@ function DetailProduct() {
                                         <div>
                                             <Button
                                                 style={{ height: '40px' }}
-                                                content={'BUY NOW'}
+                                                content={
+                                                    isLoadingBtnBuyNow ? (
+                                                        <LoadingTextCommon />
+                                                    ) : (
+                                                        'BUY NOW'
+                                                    )
+                                                }
                                                 customClassName={
                                                     !sizeSelected && disableBtn
                                                 }
+                                                onClick={handleBuyNow}
                                             />
                                         </div>
 

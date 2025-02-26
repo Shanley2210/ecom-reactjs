@@ -8,11 +8,22 @@ import { SideBarContext } from '@/contexts/SideBarProvider';
 function BoxIconRight({ type, href }) {
     const { boxIconRight, boxCart, quantity } = styles;
 
-    const { setIsOpen, setType, listProductsCart } = useContext(SideBarContext);
+    const {
+        setIsOpen,
+        setType,
+        listProductsCart,
+        userId,
+        handleGetListProductsCart
+    } = useContext(SideBarContext);
 
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
         setType(type);
+    };
+
+    const handleOpenCartSideBar = () => {
+        handleGetListProductsCart(userId, 'cart');
+        handleOpenSideBar('cart');
     };
 
     const handleRenderIcon = (type) => {
@@ -36,7 +47,7 @@ function BoxIconRight({ type, href }) {
                     <div className={boxCart}>
                         <BsCart3
                             style={{ fontSize: '20px' }}
-                            onClick={() => handleOpenSideBar(type)}
+                            onClick={() => handleOpenCartSideBar()}
                         />
                         <div className={quantity}>
                             {listProductsCart.length}

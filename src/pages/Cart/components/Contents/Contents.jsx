@@ -4,11 +4,12 @@ import CartSummary from '@pages/Cart/components/Contents/CartSummary';
 import Button from '@components/Button/Button';
 import { TfiTrash } from 'react-icons/tfi';
 import { IoCartOutline } from 'react-icons/io5';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SideBarContext } from '@contexts/SideBarProvider';
 import { addProductToCart } from '@/apis/cartService';
 import { deleteItem, deleteAllItem } from '@/apis/cartService';
 import { useNavigate } from 'react-router-dom';
+import { getCart } from '@/apis/cartService';
 
 function Contents() {
     const {
@@ -27,7 +28,8 @@ function Contents() {
         handleGetListProductsCart,
         isLoading,
         setIsLoading,
-        userId
+        userId,
+        setListProductsCart
     } = useContext(SideBarContext);
 
     const navigate = useNavigate();
@@ -72,6 +74,18 @@ function Contents() {
     const handleNavigateToShop = () => {
         navigate('/shop');
     };
+
+    useEffect(() => {
+        getCart(userId)
+            .then((res) => {
+                setListProductsCart(res.data.data);
+                setIsLoading(false);
+            })
+            .catch((err) => {
+                setListProductsCart([]);
+                setIsLoading(false);
+            });
+    }, []);
 
     //console.log('listProductsCart', listProductsCart);
 

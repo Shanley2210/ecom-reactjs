@@ -7,12 +7,20 @@ import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import MethodPayment from '@components/MethodPayment/MethodPayment';
 import AccordionMenu from '@components/AccordionMenu/AccordionMeni';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import InfomationProduct from '@pages/DetailProduct/Components/Infomation';
 import ReViewProduct from '@pages/DetailProduct/Components/ReView';
 import SilderCommon from '@components/SliderCommon/SilderCommon';
 import ReactImageMagnifier from 'simple-image-magnifier/react';
 import ClassNames from 'classnames';
+import { getDetailProduct, getRelatedProduct } from '@/apis/productsService';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import { toast } from 'react-toastify';
+import { handleaddProductToCartCommon } from '@/utils/helper';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { ToastContext } from '@/contexts/ToastProvider';
+import Cookies from 'js-cookie';
 
 function DetailProduct() {
     const {
@@ -35,12 +43,24 @@ function DetailProduct() {
         infoProduct,
         activeSive,
         clearSize,
-        disableBtn
+        disableBtn,
+        loading,
+        emptyData
     } = styles;
 
     const [menuSelected, setMenuSelected] = useState(1);
     const [sizeSelected, setSizeSelected] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState(false);
+    const [dataRelated, setDataRelated] = useState([]);
+    const param = useParams();
+    const navigate = useNavigate();
+    const { setIsOpen, setType, handleGetListProductsCart, setDetailProduct } =
+        useContext(SideBarContext);
+    const { toast } = useContext(ToastContext);
+    const userId = Cookies.get('userId');
+    const [isLoadingBtn, setIsLoadingBtn] = useState(false);
 
     const dataAccordion = [
         {
@@ -55,39 +75,39 @@ function DetailProduct() {
         }
     ];
 
-    const tempDataSilder = [
-        {
-            image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-            name: 'TestProduct',
-            price: 1000,
-            size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
-        },
-        {
-            image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-            name: 'TestProduct',
-            price: 1000,
-            size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
-        },
-        {
-            image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-            name: 'TestProduct',
-            price: 1000,
-            size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
-        }
-    ];
+    // const tempDataSilder = [
+    //     {
+    //         image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //         name: 'TestProduct',
+    //         price: 1000,
+    //         size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
+    //     },
+    //     {
+    //         image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //         name: 'TestProduct',
+    //         price: 1000,
+    //         size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
+    //     },
+    //     {
+    //         image: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //         name: 'TestProduct',
+    //         price: 1000,
+    //         size: [{ name: 'L' }, { name: 'S' }, { name: 'M' }]
+    //     }
+    // ];
 
-    const dataImageDetails = [
-        'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-        'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-        'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
-        'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
-    ];
+    // const dataImageDetails = [
+    //     'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //     'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //     'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg',
+    //     'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min.jpg'
+    // ];
 
-    const tempSizeData = [
-        { name: 'L', amount: '1000' },
-        { name: 'M', amount: '1000' },
-        { name: 'S', amount: '1000' }
-    ];
+    // const tempSizeData = [
+    //     { name: 'L', amount: '1000' },
+    //     { name: 'M', amount: '1000' },
+    //     { name: 'S', amount: '1000' }
+    // ];
 
     const handleSetMenuSelected = (id) => {
         // console.log(id);
@@ -122,14 +142,71 @@ function DetailProduct() {
             if (quantity > 1) {
                 setQuantity(quantity - 1);
             }
-        } else { 
+        } else {
             setQuantity(quantity + 1);
         }
     };
 
+    const fetchDataDetail = async (id) => {
+        setIsLoading(true);
+        try {
+            const data = await getDetailProduct(id);
+            // console.log(data);
+
+            setData(data);
+            setIsLoading(false);
+        } catch (err) {
+            // console.log(err);
+            toast.error('Có lỗi khi tải dữ liệu');
+            setData();
+            setIsLoading(false);
+        }
+    };
+
+    const fetchDataRelatedProduct = async (id) => {
+        setIsLoading(true);
+        try {
+            const data = await getRelatedProduct(id);
+            //console.log(data);
+
+            setDataRelated(data);
+            setIsLoading(false);
+        } catch (err) {
+            // console.log(err);
+            setDataRelated([]);
+            setIsLoading(false);
+        }
+    };
+
+    const handleAdd = () => {
+        handleaddProductToCartCommon(
+            userId,
+            setIsOpen,
+            setType,
+            toast,
+            sizeSelected,
+            param.id,
+            quantity,
+            setIsLoadingBtn,
+            handleGetListProductsCart
+        );
+    };
+
+    useEffect(() => {
+        if (param.id) {
+            fetchDataDetail(param.id);
+            fetchDataRelatedProduct(param.id);
+        }
+    }, [param]);
+
+    console.log(data);
+    // console.log(param);
+    // console.log(dataRelated);
+
     return (
         <div>
             <MyHeader />
+
             <div className={container}>
                 <MainLayout>
                     <div className={navigateSection}>
@@ -138,152 +215,215 @@ function DetailProduct() {
                             {'<'} Return to previous pages
                         </div>
                     </div>
-
-                    <div className={contentSection}>
-                        <div className={boxImages}>
-                            {dataImageDetails.map((src) =>
-                                handleRenderZoomImages(src)
-                            )}
+                    {isLoading ? (
+                        <div className={loading}>
+                            <LoadingTextCommon />
                         </div>
+                    ) : (
+                        <>
+                            {!data ? (
+                                <div className={emptyData}>
+                                    <p>No result</p>
+                                    <div>
+                                        <Button
+                                            content={'BACK TO OUR SHOP'}
+                                            onClick={() => navigate('/shop')}
+                                        />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={contentSection}>
+                                    <div className={boxImages}>
+                                        {data?.images.map((src) =>
+                                            handleRenderZoomImages(src)
+                                        )}
+                                    </div>
 
-                        <div className={boxInfoProduct}>
-                            <h1>Title Product</h1>
-                            <p className={price}>$99.99</p>
-                            <p className={des}>
-                                Amet, elit tellus, nisi odio velit ut. Euismod
-                                sit arcu, quisque arcu purus orci leo.
-                            </p>
+                                    <div className={boxInfoProduct}>
+                                        <h1>{data?.name}</h1>
+                                        <p className={price}>${data?.price}</p>
+                                        <p className={des}>
+                                            {data?.description}
+                                        </p>
 
-                            <p className={titleSize}>Size: {sizeSelected}</p>
-                            <div className={boxSize}>
-                                {tempSizeData.map((sizeItem, index) => {
-                                    return (
-                                        <div
-                                            className={ClassNames(size, {
-                                                [activeSive]:
-                                                    sizeItem.name ===
-                                                    sizeSelected
-                                            })}
-                                            key={index}
-                                            onClick={() =>
-                                                handleChooseSize(sizeItem.name)
-                                            }
-                                        >
-                                            {sizeItem.name}
+                                        <p className={titleSize}>
+                                            Size: {sizeSelected}
+                                        </p>
+                                        <div className={boxSize}>
+                                            {data?.size.map(
+                                                (sizeItem, index) => {
+                                                    return (
+                                                        <div
+                                                            className={ClassNames(
+                                                                size,
+                                                                {
+                                                                    [activeSive]:
+                                                                        sizeItem.name ===
+                                                                        sizeSelected
+                                                                }
+                                                            )}
+                                                            key={index}
+                                                            onClick={() =>
+                                                                handleChooseSize(
+                                                                    sizeItem.name
+                                                                )
+                                                            }
+                                                        >
+                                                            {sizeItem.name}
+                                                        </div>
+                                                    );
+                                                }
+                                            )}
                                         </div>
-                                    );
-                                })}
-                            </div>
 
-                            {sizeSelected && (
-                                <div
-                                    className={clearSize}
-                                    onClick={handleClearSize}
-                                >
-                                    Clear
+                                        {sizeSelected && (
+                                            <div
+                                                className={clearSize}
+                                                onClick={handleClearSize}
+                                            >
+                                                Clear
+                                            </div>
+                                        )}
+
+                                        <div className={funcInfo}>
+                                            <div className={incrQuantity}>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            'decrement'
+                                                        )
+                                                    }
+                                                    style={{
+                                                        userSelect: 'none'
+                                                    }}
+                                                >
+                                                    -
+                                                </div>
+                                                <div className={titleQuantity}>
+                                                    {quantity}
+                                                </div>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            'increment'
+                                                        )
+                                                    }
+                                                    style={{
+                                                        userSelect: 'none'
+                                                    }}
+                                                >
+                                                    +
+                                                </div>
+                                            </div>
+
+                                            <div className={boxBtn}>
+                                                <Button
+                                                    content={
+                                                        isLoadingBtn ? (
+                                                            <LoadingTextCommon />
+                                                        ) : (
+                                                            'ADD TO CART'
+                                                        )
+                                                    }
+                                                    customClassName={
+                                                        !sizeSelected &&
+                                                        disableBtn
+                                                    }
+                                                    onClick={handleAdd}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className={orSection}>
+                                            <div></div>
+                                            <span>OR</span>
+                                            <div></div>
+                                        </div>
+
+                                        <div>
+                                            <Button
+                                                style={{ height: '40px' }}
+                                                content={'BUY NOW'}
+                                                customClassName={
+                                                    !sizeSelected && disableBtn
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className={addFunction}>
+                                            <div>
+                                                <CiHeart
+                                                    style={{ fontSize: '25px' }}
+                                                />
+                                            </div>
+                                            <div>
+                                                <TfiReload
+                                                    style={{ fontSize: '22px' }}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <MethodPayment />
+                                        </div>
+
+                                        <div className={infoProduct}>
+                                            <div>
+                                                Brand: <span>Brand 01</span>
+                                            </div>
+                                            <div>
+                                                SKU:<span> 12345</span>
+                                            </div>
+                                            <div>
+                                                Category: <span>Men</span>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            {dataAccordion.map(
+                                                (item, index) => (
+                                                    <AccordionMenu
+                                                        key={index}
+                                                        titleMenu={
+                                                            item.titleMenu
+                                                        }
+                                                        content={item.content}
+                                                        onClick={() =>
+                                                            handleSetMenuSelected(
+                                                                item.id
+                                                            )
+                                                        }
+                                                        isSelected={
+                                                            menuSelected ===
+                                                            item.id
+                                                        }
+                                                    />
+                                                )
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
-
-                            <div className={funcInfo}>
-                                <div className={incrQuantity}>
-                                    <div
-                                        onClick={() =>
-                                            handleSetQuantity('decrement')
-                                        }
-                                        style={{ userSelect: 'none' }}
-                                    >
-                                        -
-                                    </div>
-                                    <div className={titleQuantity}>
-                                        {quantity}
-                                    </div>
-                                    <div
-                                        onClick={() =>
-                                            handleSetQuantity('increment')
-                                        }
-                                        style={{ userSelect: 'none' }}
-                                    >
-                                        +
-                                    </div>
-                                </div>
-
-                                <div className={boxBtn}>
-                                    <Button
-                                        content={'ADD TO CART'}
-                                        customClassName={
-                                            !sizeSelected && disableBtn
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div className={orSection}>
-                                <div></div>
-                                <span>OR</span>
-                                <div></div>
-                            </div>
-
-                            <div>
-                                <Button
-                                    style={{ height: '40px' }}
-                                    content={'BUY NOW'}
-                                    customClassName={
-                                        !sizeSelected && disableBtn
-                                    }
-                                />
-                            </div>
-
-                            <div className={addFunction}>
-                                <div>
-                                    <CiHeart style={{ fontSize: '25px' }} />
-                                </div>
-                                <div>
-                                    <TfiReload style={{ fontSize: '22px' }} />
-                                </div>
-                            </div>
-
-                            <div>
-                                <MethodPayment />
-                            </div>
-
-                            <div className={infoProduct}>
-                                <div>
-                                    Brand: <span>Brand 01</span>
-                                </div>
-                                <div>
-                                    SKU:<span> 12345</span>
-                                </div>
-                                <div>
-                                    Category: <span>Men</span>
-                                </div>
-                            </div>
-
-                            <div>
-                                {dataAccordion.map((item, index) => (
-                                    <AccordionMenu
-                                        key={index}
-                                        titleMenu={item.titleMenu}
-                                        content={item.content}
-                                        onClick={() =>
-                                            handleSetMenuSelected(item.id)
-                                        }
-                                        isSelected={menuSelected === item.id}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
+                        </>
+                    )}
                     <div>
                         <h2>Related Products</h2>
-                        <SilderCommon
-                            data={tempDataSilder}
-                            isProductItem
-                            showItem={4}
-                        />
+
+                        {dataRelated.length ? (
+                            <SilderCommon
+                                data={dataRelated}
+                                isProductItem
+                                showItem={4}
+                            />
+                        ) : (
+                            <>
+                                <p>There are no related products</p>
+                            </>
+                        )}
                     </div>
                 </MainLayout>
             </div>
+
             <MyFooter />
         </div>
     );
